@@ -1,0 +1,195 @@
+
+\documentclass[12pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+\title{\noindent\rule{\textwidth}{0.5pt}
+\huge{AirWatch} \vspace{0.1cm}\\ \large{Weather \& Air Pollution Monitor\\}
+\noindent\rule{\textwidth}{0.5pt}
+\Large{Software Design Document (SDD)\\\small{System Architecture \& Technical Specifications\\}}
+\vspace{0.1cm}
+\small{ 
+Version: 1.3\\ 
+Date: May 2026\\
+Platform: Mobile (iOS/Android) \& Web\\
+CS3338 Group  5}
+}
+\date{}
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Introduction}
+
+\subsection{Purpose}
+This Software Design Document describes the internal architecture, module design, data flows, and technology decisions for the AirWatch Weather \& Air Pollution Monitor. It serves as the technical reference for the development team and future maintainers.
+
+\subsection{Scope}
+AirWatch is a cross-platform application (iOS, Android, Web PWA) that aggregates weather data and air quality index (AQI) information from third-party APIs, presents it via interactive maps, and delivers proactive health notifications when configurable thresholds are exceeded.
+
+\subsection{Definitions}
+\begin{enumerate}
+    \item AQI -- Air Quality Index (0--500 scale per EPA standard)
+    \item PWA -- Progressive Web App (installable web application)
+    \item FCM -- Firebase Cloud Messaging (Android push service)
+    \item APNs -- Apple Push Notification service (iOS push service)
+    \item DXA -- A unit used in document formatting (not application-related)
+\end{enumerate}
+
+\section{System Architecture Overview}
+
+\subsection{High-Level Architecture}
+AirWatch follows a three-tier client-server architecture:
+
+\begin{enumerate}
+    \item Presentation Tier: React Native (mobile) and React PWA (web)
+    \item Application Tier: Node.js + Express REST API on cloud infrastructure (AWS EC2)
+    \item Data Tier: PostgreSQL (relational), Redis (cache + queue)
+\end{enumerate}
+
+External integrations:
+
+\begin{enumerate}
+    \item OpenWeatherMap API -- current conditions, 7-day forecast
+    \item AirVisual API -- real-time AQI, pollutant breakdown (PM2.5, PM10, O3, NO2)
+    \item Google Places API -- location autocomplete and geocoding
+    \item Mapbox -- map tile delivery and custom vector layers
+    \item Firebase / APNs -- push notification delivery
+\end{enumerate}
+
+\subsection{Architecture Diagram (Textual)}
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Client Layer} & \textbf{API Gateway} & \textbf{External Services} \\
+\hline
+React Native App & Express REST API & OpenWeatherMap, AirVisual \\
+\hline
+React PWA & Express REST API & Google Places, Mapbox \\
+\hline
+node-cron Scheduler & Firebase FCM / APNs & PostgreSQL + Redis \\
+\hline
+\end{tabular}
+\end{center}
+
+\section{Module Design}
+
+\subsection{Weather Data Module}
+Responsible for fetching and caching weather data. API calls are wrapped in an Axios service layer with automatic retry (3 attempts, exponential backoff). Responses are cached in Redis for 10 minutes to minimize third-party API quota consumption.
+
+\begin{itemize}
+    \item Endpoint: \texttt{GET /api/weather?lat=\{lat\}\&lon=\{lon\}}
+    \item Response includes: temperature, feels-like, humidity, wind speed/direction, UV index, visibility, weather condition icon code
+    \item Cache key: \texttt{weather:\{lat\}:\{lon\}}
+\end{itemize}
+
+\subsection{AQI Data Module}
+Fetches AQI and pollutant data from AirVisual. Mapped to EPA breakpoint table to compute category labels (Good, Moderate, Unhealthy for Sensitive Groups, Unhealthy, Very Unhealthy, Hazardous).
+
+\begin{itemize}
+    \item Endpoint: \texttt{GET /api/aqi?lat=\{lat\}\&lon=\{lon\}}
+    \item Pollutants returned: PM2.5, PM10, O3, NO2, SO2, CO
+    \item Cache key: \texttt{aqi:\{lat\}:\{lon\}} | TTL: 15 minutes
+\end{itemize}
+
+\subsection{Map Module}
+Interactive maps rendered via Mapbox (web) and react-native-maps (mobile). AQI heat-map overlay uses Turf.js to interpolate a point cloud of known AQI readings into a filled polygon layer color-coded by AQI category.
+
+\begin{itemize}
+    \item Web: Mapbox GL JS layer of type \texttt{fill} using client-side GeoJSON
+    \item Mobile: Custom overlay rendered via react-native-maps Overlay component
+    \item Location search: Google Places Autocomplete $\rightarrow$ coordinates $\rightarrow$ load data modules
+\end{itemize}
+
+\subsection{Notification Module}
+A node-cron job runs every 30 minutes, polling AQI for each user's saved locations. If the AQI delta crosses a user-defined threshold, a message is pushed to the Bull job queue. A Bull worker processes the queue and dispatches via FCM (Android) or APNs (iOS).
+
+\begin{itemize}
+    \item Threshold check: \texttt{current AQI >= user.thresholds[location].aqi\_alert}
+    \item Quiet hours: notifications suppressed if current time outside \texttt{user.preferences.notification\_window}
+    \item Deep-link payload: \texttt{airwatch://location/\{locationId\}}
+\end{itemize}
+
+\subsection{Health Advisory Engine}
+Maps AQI numeric value to EPA-defined health guidance text.
+
+\begin{center}
+\begin{longtable}{|p{2.5cm}|p{3cm}|p{2cm}|p{6cm}|}
+\hline
+\textbf{AQI Range} & \textbf{Category} & \textbf{Color} & \textbf{Health Message} \\
+\hline
+0--50 & Good & Green & Air quality is satisfactory; outdoor activity is safe \\
+\hline
+51--100 & Moderate & Yellow & Acceptable; unusually sensitive people may experience effects \\
+\hline
+101--150 & Unhealthy (SG) & Orange & Sensitive groups at risk; general public unaffected \\
+\hline
+151--200 & Unhealthy & Red & Everyone may experience health effects \\
+\hline
+201--300 & Very Unhealthy & Purple & Health alert: everyone may experience serious effects \\
+\hline
+301--500 & Hazardous & Maroon & Health warning of emergency conditions for all \\
+\hline
+\end{longtable}
+\end{center}
+
+\section{Database Design}
+
+\subsection{Entity Relationship Summary}
+\begin{itemize}
+    \item Users $\rightarrow$ (1:N) $\rightarrow$ SavedLocations $\rightarrow$ (1:N) $\rightarrow$ NotificationPreferences
+    \item Users $\rightarrow$ (1:N) $\rightarrow$ AlertHistory
+\end{itemize}
+
+\subsection{Key Tables}
+
+\begin{center}
+\begin{longtable}{|p{4cm}|p{3cm}|p{6cm}|}
+\hline
+\textbf{Table} & \textbf{Primary Key} & \textbf{Notable Columns} \\
+\hline
+users & user\_id (UUID) & email, password\_hash, created\_at, preferences (JSONB) \\
+\hline
+saved\_locations & location\_id (UUID) & user\_id, city\_name, lat, lon, display\_order \\
+\hline
+notification\_prefs & pref\_id (UUID) & location\_id, aqi\_threshold, quiet\_start, quiet\_end \\
+\hline
+alert\_history & alert\_id (UUID) & user\_id, location\_id, aqi\_value, sent\_at, dismissed\_at \\
+\hline
+\end{longtable}
+\end{center}
+
+\section{Security Design}
+
+\begin{enumerate}
+    \item Authentication: JWT (access token 15 min / refresh token 7 days) stored in secure HTTP-only cookies
+    \item Password hashing: bcrypt with cost factor 12
+    \item API keys: stored in AWS Secrets Manager; injected at runtime via environment variables
+    \item HTTPS enforced on all endpoints; HSTS header with 1-year max-age
+    \item Input validation: Joi schemas on all POST/PATCH endpoints
+    \item Rate limiting: 100 req/min per IP via express-rate-limit
+\end{enumerate}
+
+\section{Deployment Architecture}
+
+\begin{enumerate}
+    \item Mobile: Expo EAS Build $\rightarrow$ Fastlane $\rightarrow$ App Store Connect / Google Play
+    \item Web PWA: Vite build $\rightarrow$ AWS S3 + CloudFront CDN
+    \item API: Docker container $\rightarrow$ AWS ECR $\rightarrow$ ECS Fargate (auto-scaling 1--5 tasks)
+    \item Database: AWS RDS PostgreSQL Multi-AZ; Redis via ElastiCache
+    \item CI/CD: GitHub Actions -- lint $\rightarrow$ test $\rightarrow$ build $\rightarrow$ deploy on merge to main
+\end{enumerate}
+
+\vspace{1cm}
+
+
+\end{document}
+```
