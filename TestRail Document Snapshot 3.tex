@@ -1,0 +1,80 @@
+\section{Snapshot 3 --- TestRail Report}
+
+\subsection{Testing Overview}
+
+Testing for Snapshot 3 focused on validating the notification infrastructure and health advisory systems added to the AirWatch platform. QA efforts emphasized push notification reliability, AQI threshold logic, scheduler services, and advisory feed rendering.
+
+\subsection{Test Execution Summary}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Metric} & \textbf{Result} \\
+\hline
+Total Test Cases Written & 34 \\
+Executed & 34 \\
+Passed & 31 \\
+Failed & 2 \\
+Blocked & 1 \\
+Overall Pass Rate & 91\% \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Key Testing Areas}
+
+\subsubsection{Push Notifications}
+\begin{itemize}
+    \item Verified Firebase Cloud Messaging delivery
+    \item Tested APNs notifications on iOS
+    \item Validated notification deep-linking behavior
+\end{itemize}
+
+\subsubsection{Health Advisory Engine}
+\begin{itemize}
+    \item Tested AQI threshold logic
+    \item Verified advisory recommendation accuracy
+    \item Confirmed advisory generation during scheduled AQI checks
+\end{itemize}
+
+\subsubsection{Notification Preferences}
+\begin{itemize}
+    \item Tested quiet hours functionality
+    \item Verified notification preference persistence
+    \item Confirmed alert suppression during restricted periods
+\end{itemize}
+
+\subsubsection{Alerts Feed Interface}
+\begin{itemize}
+    \item Verified advisory feed rendering
+    \item Tested chronological sorting behavior
+    \item Validated alert history display
+\end{itemize}
+
+\subsection{Major Issues Identified}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|p{9cm}|l|}
+\hline
+\textbf{Defect ID} & \textbf{Description} & \textbf{Status} \\
+\hline
+BUG-301 & Notification delivery delays on low-end Android devices & Resolved \\
+\hline
+BUG-305 & Duplicate alerts generated during rapid AQI fluctuations & Resolved \\
+\hline
+BUG-309 & APNs production certificate unavailable during final iOS testing & Blocked \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{QA Reflection}
+
+Snapshot 3 testing highlighted the complexity of cross-platform notification systems and scheduled background processing. The team learned that notification timing and queue management required significantly more testing than originally expected.
+
+Testing also reinforced the need for stress testing and device-specific validation when implementing background services.
+
+\subsection{Final Assessment}
+
+Snapshot 3 objectives were completed successfully, with notification systems and advisory features functioning reliably across supported platforms. Most critical defects were resolved before the conclusion of QA testing.

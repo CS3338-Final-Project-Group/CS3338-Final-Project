@@ -1,0 +1,104 @@
+\section{TestRail Reflection}
+
+\subsection{Testing Overview}
+
+During Snapshot 4, the QA team focused on final system validation, regression testing, accessibility reviews, performance optimization, and production release preparation for the AirWatch platform.
+
+Testing covered all major project components developed throughout previous snapshots, including:
+\begin{itemize}
+    \item AQI monitoring
+    \item Interactive maps
+    \item Saved locations
+    \item Push notifications
+    \item Health advisory recommendations
+    \item Cross-platform mobile and web compatibility
+\end{itemize}
+
+The final QA phase emphasized release stability and user experience consistency before deployment.
+
+\subsection{Test Execution Summary}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Metric} & \textbf{Result} \\
+\hline
+Total Test Cases Written & 92 \\
+Executed & 92 \\
+Passed & 86 \\
+Failed & 4 \\
+Blocked & 2 \\
+Overall Pass Rate & 93\% \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Major Issues Identified}
+
+\subsubsection{Dark Mode UI Inconsistencies}
+
+Several mobile screens displayed incorrect text contrast after enabling dark mode.
+
+Examples included:
+\begin{itemize}
+    \item unreadable advisory feed text
+    \item overlapping buttons on smaller Android devices
+    \item inconsistent icon coloring
+\end{itemize}
+
+The issue was partially resolved through updated theme styling and additional responsive layout testing.
+
+\subsubsection{Performance Issues During Heavy Map Usage}
+
+Rapid zooming and panning on the AQI heat-map occasionally caused lag on older devices.
+
+The development team improved performance by:
+\begin{itemize}
+    \item reducing overlay refresh frequency
+    \item optimizing map rendering
+    \item limiting unnecessary API requests
+\end{itemize}
+
+\subsubsection{Accessibility Audit Findings}
+
+Accessibility testing identified several areas needing improvement:
+\begin{itemize}
+    \item missing screen reader labels
+    \item insufficient contrast ratios
+    \item incomplete keyboard navigation support on web builds
+\end{itemize}
+
+Most accessibility issues were resolved before final QA approval.
+
+\subsection{QA Reflection}
+
+Using TestRail throughout development significantly improved testing organization and regression tracking. Maintaining separate test suites for maps, notifications, and advisory systems helped isolate failures quickly and reduced duplicate testing effort.
+
+The team learned that:
+\begin{itemize}
+    \item cross-platform testing should begin earlier in development
+    \item accessibility validation should occur continuously instead of only during final QA
+    \item performance testing on low-end devices is critical for mobile stability
+\end{itemize}
+
+The addition of automated regression testing also reduced the number of repeated manual verification steps during final release preparation.
+
+\subsection{Process Improvements}
+
+For future releases, the QA team recommends:
+\begin{itemize}
+    \item earlier integration of automated UI testing
+    \item expanded accessibility testing coverage
+    \item additional stress testing for notification services
+    \item more physical device testing across Android versions
+    \item automated dark mode validation
+\end{itemize}
+
+The team also plans to improve CI/CD workflows using deployment automation and crash monitoring tools.
+
+\subsection{Final QA Assessment}
+
+The Snapshot 4 build successfully met release readiness requirements. Core features operated reliably across supported platforms, and most critical defects were resolved before deployment.
+
+The QA team approved the application for production release following completion of regression and accessibility verification.

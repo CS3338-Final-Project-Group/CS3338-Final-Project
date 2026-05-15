@@ -1,0 +1,79 @@
+\section{Snapshot 2 --- TestRail Report}
+
+\subsection{Testing Overview}
+
+Testing for Snapshot 2 focused on validating the new interactive map and location-based AQI monitoring features implemented in the AirWatch platform. QA testing covered map rendering, AQI overlays, geolocation, location search, and saved locations persistence across mobile and web environments.
+
+\subsection{Test Execution Summary}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Metric} & \textbf{Result} \\
+\hline
+Total Test Cases Written & 26 \\
+Executed & 26 \\
+Passed & 23 \\
+Failed & 2 \\
+Blocked & 1 \\
+Overall Pass Rate & 88\% \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Key Testing Areas}
+
+\subsubsection{Interactive Map Rendering}
+\begin{itemize}
+    \item Verified Mapbox rendering on web
+    \item Verified react-native-maps functionality on mobile
+    \item Tested zooming, panning, and tile loading behavior
+\end{itemize}
+
+\subsubsection{AQI Heat-Map Validation}
+\begin{itemize}
+    \item Confirmed AQI overlays displayed correctly
+    \item Verified AQI severity color ranges
+    \item Compared displayed AQI values against API responses
+\end{itemize}
+
+\subsubsection{Geolocation \& Search}
+\begin{itemize}
+    \item Tested GPS location detection
+    \item Validated Google Places autocomplete functionality
+    \item Verified reverse geocoding accuracy
+\end{itemize}
+
+\subsubsection{Saved Locations}
+\begin{itemize}
+    \item Confirmed users could save multiple locations
+    \item Verified persistence after app restart
+\end{itemize}
+
+\subsection{Major Issues Identified}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|p{9cm}|l|}
+\hline
+\textbf{Defect ID} & \textbf{Description} & \textbf{Status} \\
+\hline
+BUG-201 & Android GPS permission handling occasionally failed after denial/re-enable flow & Resolved \\
+\hline
+BUG-204 & AQI heat-map lag during rapid zooming on older devices & In Progress \\
+\hline
+BUG-207 & iOS map screen freeze when rapidly switching tabs & Blocked \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{QA Reflection}
+
+Testing during Snapshot 2 demonstrated the importance of cross-platform testing for map rendering and geolocation functionality. Several issues only appeared on physical mobile devices and were not reproducible in browser testing environments.
+
+The team also identified performance optimization as a future priority due to rendering delays on lower-end devices.
+
+\subsection{Final Assessment}
+
+Snapshot 2 objectives were successfully completed with most core features operating as expected. Remaining issues were minor performance and navigation-related defects scheduled for future optimization.
