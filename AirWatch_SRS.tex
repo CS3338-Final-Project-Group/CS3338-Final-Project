@@ -1,0 +1,175 @@
+\documentclass[12pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+
+\setlist{noitemsep, topsep=4pt}
+\renewcommand{\arraystretch}{1.25}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+
+\title{\noindent\rule{\textwidth}{0.5pt}
+\huge{AirWatch} \vspace{0.1cm}\\ \large{Weather \& Air Pollution Monitor\\}
+\noindent\rule{\textwidth}{0.5pt}
+\Large{Software Requirements Specification (SRS)\\\small{Functional \& Non-Functional Requirements\\}}
+\vspace{0.1cm}
+\small{ 
+Version: 1.3\\ 
+Date: May 2026\\
+Platform: Mobile (iOS/Android) \& Web\\
+CS3338 Group  5}
+}
+\date{}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Introduction}
+
+\subsection{Purpose}
+This document specifies the software requirements for AirWatch, a cross-platform weather and air pollution monitoring application. It defines what the system shall do (functional requirements) and the quality attributes the system shall satisfy (non-functional requirements).
+
+\subsection{Intended Audience}
+\begin{enumerate}
+    \item Development team (implementation reference)
+    \item QA team (test case derivation)
+    \item Project stakeholders (scope agreement)
+\end{enumerate}
+
+\subsection{System Overview}
+AirWatch aggregates real-time weather and AQI data, presents it via an interactive map, delivers push notifications for threshold breaches, and provides EPA-aligned health advisories on mobile (iOS/Android) and web platforms.
+
+\section{Overall Description}
+
+\subsection{Product Perspective}
+AirWatch is a standalone application communicating with third-party data APIs via a proprietary back-end API layer. It operates on iOS 15+, Android 10+, and modern web browsers (Chrome 100+, Firefox 100+, Safari 15+).
+
+\subsection{User Classes}
+\begin{tabularx}{\textwidth}{@{}L{3.5cm}Y@{}}
+\toprule
+\textbf{User Class} & \textbf{Description} \\
+\midrule
+General Public & Primary user; views weather/AQI, receives alerts, follows health guidance \\
+Sensitive Group & Users with respiratory/cardiac conditions; rely heavily on health advisories \\
+Administrator & Internal staff managing API keys, monitoring system health, reviewing logs \\
+\bottomrule
+\end{tabularx}
+
+\subsection{Assumptions \& Dependencies}
+\begin{enumerate}
+    \item Users have an active internet connection during primary usage
+    \item Third-party API uptime: OpenWeatherMap and AirVisual maintain $>$99.5\% uptime SLAs
+    \item Device location services are enabled by the user
+\end{enumerate}
+
+\section{Functional Requirements}
+
+\subsection{Weather \& AQI Display (Snapshot 1)}
+\begin{tabularx}{\textwidth}{@{}L{2.2cm}Y@{}}
+\toprule
+\textbf{ID} & \textbf{Requirement} \\
+\midrule
+FR-101 & The system shall display current temperature, humidity, wind speed/direction, UV index, and visibility for the user's location \\
+FR-102 & The system shall display the current AQI value and category label (Good through Hazardous) \\
+FR-103 & The system shall display a 7-day weather forecast with high/low temperatures and condition icons \\
+FR-104 & The system shall display a pollutant breakdown (PM2.5, PM10, O3, NO2, SO2, CO) with individual values \\
+FR-105 & The system shall automatically detect the user's GPS location on launch with their permission \\
+FR-106 & The system shall refresh weather and AQI data every 10 minutes while the app is in the foreground \\
+\bottomrule
+\end{tabularx}
+
+\subsection{Map \& Location Search (Snapshot 2)}
+\begin{tabularx}{\textwidth}{@{}L{2.2cm}Y@{}}
+\toprule
+\textbf{ID} & \textbf{Requirement} \\
+\midrule
+FR-201 & The system shall display an interactive map with an AQI heat-map overlay using EPA color coding \\
+FR-202 & The system shall provide a location search bar with autocomplete suggestions powered by Google Places \\
+FR-203 & The system shall allow users to save up to 10 locations to their profile \\
+FR-204 & The system shall display a Saved Locations list with current AQI badge for each entry \\
+FR-205 & The system shall allow users to reorder and delete saved locations \\
+FR-206 & Tapping a map location marker shall navigate to that location's detail screen \\
+\bottomrule
+\end{tabularx}
+
+\subsection{Notifications \& Health Advisories (Snapshot 3)}
+\begin{tabularx}{\textwidth}{@{}L{2.2cm}Y@{}}
+\toprule
+\textbf{ID} & \textbf{Requirement} \\
+\midrule
+FR-301 & The system shall send a push notification when AQI in a saved location exceeds the user's configured threshold \\
+FR-302 & The system shall allow users to configure AQI alert thresholds per saved location \\
+FR-303 & The system shall allow users to configure quiet hours during which notifications are suppressed \\
+FR-304 & The system shall display an in-app Alerts Feed listing all recent advisories \\
+FR-305 & Push notifications shall deep-link to the affected location's detail screen when tapped \\
+FR-306 & The system shall display health advisory text and recommended actions for each AQI category \\
+\bottomrule
+\end{tabularx}
+
+\subsection{Final Polish Requirements (Snapshot 4)}
+\begin{tabularx}{\textwidth}{@{}L{2.2cm}Y@{}}
+\toprule
+\textbf{ID} & \textbf{Requirement} \\
+\midrule
+FR-401 & The system shall support dark mode, adapting to the device system preference automatically \\
+FR-402 & The system shall meet WCAG 2.1 AA accessibility standards on all primary screens \\
+FR-403 & The system shall report crashes and errors to Sentry in real time \\
+\bottomrule
+\end{tabularx}
+
+\section{Non-Functional Requirements}
+
+\begin{tabularx}{\textwidth}{@{}L{2cm}L{3cm}Y@{}}
+\toprule
+\textbf{ID} & \textbf{Category} & \textbf{Requirement} \\
+\midrule
+NFR-01 & Performance & App shall load home screen data within 3 seconds on LTE/4G connection \\
+NFR-02 & Performance & API endpoints shall respond within 500ms at p95 under normal load \\
+NFR-03 & Availability & Back-end API shall maintain 99.5\% uptime monthly \\
+NFR-04 & Scalability & System shall support 10,000 concurrent users without performance degradation \\
+NFR-05 & Security & All data in transit shall be encrypted via TLS 1.2 or higher \\
+NFR-06 & Security & User passwords shall be hashed with bcrypt (cost factor $\geq$ 12) \\
+NFR-07 & Usability & New users shall complete onboarding and view their first AQI reading within 60 seconds \\
+NFR-08 & Reliability & Push notifications shall be delivered within 5 minutes of threshold breach \\
+NFR-09 & Maintainability & Code coverage for unit tests shall remain above 75\% \\
+NFR-10 & Accessibility & All UI controls shall have accessible labels; contrast ratios shall meet WCAG 2.1 AA \\
+\bottomrule
+\end{tabularx}
+
+\section{External Interface Requirements}
+
+\subsection{User Interfaces}
+\begin{enumerate}
+    \item Home Screen: AQI summary card, weather stats, 7-day forecast strip
+    \item Map Screen: Full-screen interactive map with heat-map overlay, search bar
+    \item Location Detail Screen: Full weather + AQI breakdown, trend chart, health advisory
+    \item Alerts Feed Screen: Chronological list of dismissed/active advisories
+    \item Settings Screen: Account, notification preferences, theme toggle
+\end{enumerate}
+
+\subsection{API Interfaces}
+\begin{enumerate}
+    \item OpenWeatherMap One Call API 2.5 -- weather data
+    \item AirVisual Nearest City API v2 -- AQI and pollutant data
+    \item Google Places Autocomplete v1 -- location search
+    \item Mapbox Maps API v3 -- map tiles and custom layers
+\end{enumerate}
+
+\subsection{Hardware Interfaces}
+\begin{enumerate}
+    \item GPS/Location Services -- device location requested at runtime
+    \item Push Notification Service -- FCM (Android) / APNs (iOS)
+    \item Camera -- not used in v1.0
+\end{enumerate}
+
+\end{document}
