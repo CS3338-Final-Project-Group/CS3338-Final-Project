@@ -1,0 +1,354 @@
+\documentclass[12pt]{article}
+
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{longtable}
+\usepackage{titlesec}
+
+\title{\noindent\rule{\textwidth}{0.5pt}
+\huge{AirWatch} \vspace{0.1cm}\\ \large{Weather \& Air Pollution Monitor\\}
+\noindent\rule{\textwidth}{0.5pt}
+\Large{Project Snapshot Overview\\\small{All Four Development Snapshots\\}}
+\vspace{0.1cm}
+\small{ 
+Version: 4.0\\ 
+Date: May 2026\\
+Platform: Mobile (iOS/Android) \& Web\\
+CS3338 Group  5}
+}
+\date{}
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section{Project Introduction}
+AirWatch is a cross-platform weather and air pollution monitoring application targeting both mobile (iOS/Android) and web browsers. The application aggregates real-time air quality index (AQI) data alongside traditional meteorological readings, providing users with actionable health advisories, historical trend charts, and location-based alerts. The project is simulated across four development snapshots spanning eight months of a typical agile software lifecycle.
+
+\subsection{Snapshot 1 - Project Start}
+
+Snapshot 1 summarizes the initial development phase of the AirWatch project. 
+The purpose of this phase is to establish the project foundation, define the 
+software architecture, initialize development workflows, and create a working 
+prototype capable of displaying weather and air quality information as part of the Senior Design/CS curriculum.
+
+\subsection{Primary Objectives}
+
+\begin{enumerate}
+    \item Establish GitHub repository structure
+    \item Configure CI/CD pipeline using GitHub Actions
+    \item Set up React Native mobile application
+    \item Set up React web application
+    \item Configure Node.js and Express backend server
+    \item Configure PostgreSQL database
+    \item Integrate OpenWeatherMap API
+    \item Integrate AirVisual API
+    \item Build prototype UI screens
+    \item Create initial unit tests
+\end{enumerate}
+
+\subsection{Frameworks and Dependencies}
+
+\begin{longtable}{|p{5cm}|p{3cm}|p{5cm}|}
+\hline
+\textbf{Tool} & \textbf{Version} & \textbf{Purpose} \\
+\hline
+React Native & 0.73 & Mobile application framework \\
+\hline
+React & 18.2 & Web frontend framework \\
+\hline
+Node.js + Express & 20 LTS & Backend REST API \\
+\hline
+PostgreSQL & 15 & Database management \\
+\hline
+Redux Toolkit & 1.9 & State management \\
+\hline
+Axios & 1.6 & HTTP requests \\
+\hline
+Jest & 29 & Testing framework \\
+\hline
+\end{longtable}
+
+\subsection{Team Roles \&  Task Delegation}
+
+\begin{longtable}{|p{3cm}|p{3cm}|p{7cm}|}
+\hline
+\textbf{Team Member} & \textbf{Role} & \textbf{Primary Responsibilities} \\
+\hline
+Brandon Khuu & Project Manager & Sprint planning, risk management, stakeholder updates \\
+\hline
+Tommy Pang & Lead Mobile \& Web Dev & React Native setup, navigation, location services \newline
+React web app, responsive layout, PWA config\\
+\hline
+Nathan Lopez & Back-End Dev & Express API, database schema, third-party integrations \\
+\hline
+Joshua Xotoy & QA Engineer & Test plans, manual testing, TestRail management\\
+\hline
+\end{longtable}
+
+
+
+\subsection{Sprint Goals}
+
+\subsubsection{Sprint 1}
+\begin{itemize}
+    \item Environment setup
+    \item Repository initialization
+    \item Backend scaffolding
+    \item Database connection
+\end{itemize}
+
+\subsubsection{Sprint 2}
+\begin{itemize}
+    \item Weather API integration
+    \item AQI API integration
+    \item Mobile home screen
+    \item Web home page
+    \item Initial unit testing
+\end{itemize}
+
+\subsection{Workflow}
+Sprint Length: 2 weeks  |  Methodology: Scrum  |  Stand-ups: Daily 9 AM
+Sprint 1: Setup \& scaffolding → Sprint 2: Core data integration \& prototype screens
+Version Control: GitHub Flow – feature branches → PR review → merge to main
+
+
+
+\subsection{Expected Deliverables}
+
+\begin{itemize}
+    \item Functional prototype
+    \item Basic UI implementation
+    \item Connected backend API
+    \item Database schema
+    \item Initial documentation
+\end{itemize}
+\newpage
+
+\section{Snapshot 2 - Checkpoint 1 Reflection}
+
+Snapshot 1 successfully established the project foundation, backend API,
+weather integrations, and prototype user interface.
+
+\subsection{New Feature Objective}
+
+The primary goal of Snapshot 2 is to implement an interactive map and
+location search system that allows users to monitor AQI data across
+multiple regions.
+
+\subsection{Feature Tasks}
+
+\begin{enumerate}
+    \item Integrate Mapbox GL JS
+    \item Configure react-native-maps
+    \item Build AQI heat-map overlays
+    \item Implement Google Places autocomplete
+    \item Add save location functionality
+    \item Add reverse geocoding support
+    \item Update mobile navigation system
+\end{enumerate}
+
+\subsection{New Dependencies}
+
+\begin{longtable}{|p{5cm}|p{3cm}|p{5cm}|}
+\hline
+\textbf{Tool} & \textbf{Version} & \textbf{Purpose} \\
+\hline
+Mapbox GL JS & 3.1 & Interactive web maps \\
+\hline
+react-native-maps & 1.10 & Mobile map rendering \\
+\hline
+Google Places API & v1 & Location autocomplete \\
+\hline
+Turf.js & 6.5 & Geospatial calculations \\
+\hline
+React Navigation & 6.1 & Mobile navigation system \\
+\hline
+\end{longtable}
+
+
+\subsection{TestRail \& Objectives}
+TestRail Suite Added: Map \& Location Module (Suite ID: S-102)
+\begin{itemize}
+    \item TC-201: Verify Mapbox rendering on web
+    \item TC-202: Validate AQI heat-map overlay accuracy
+    \item TC-203: Test GPS location detection and reverse geocoding
+    \item TC-204: Verify saved locations persistence after app restart
+\end{itemize}
+
+\subsection {Updated Workflow}
+Sprint 3: Map integration and tile layer + Sprint 4: Location search, saved locations, QA pass
+Added code-review checklist item: verify map API key is not committed to repository
+
+
+\subsection{Documentation Updates}
+
+The following documents will be revised:
+
+\begin{itemize}
+    \item Software Design Document
+    \item Software Requirements Specification
+    \item User Manual
+    \item Workflow Diagram
+\end{itemize}
+
+\subsection{Expected Deliverables}
+
+\begin{itemize}
+    \item Interactive map system
+    \item Multi-location support
+    \item Search and geolocation features
+    \item Updated project documentation
+\end{itemize}
+\newpage
+
+\section{Snapshot 3 - Checkpoint 2 Reflection}
+
+Snapshot 2 introduced interactive maps, location search,
+and persistent saved locations functionality.
+
+\subsection{New Feature Objective}
+
+Snapshot 3 focuses on implementing push notifications and
+a health advisory engine for AQI threshold monitoring.
+
+\subsection{Feature Tasks}
+
+\begin{enumerate}
+    \item Integrate Firebase Cloud Messaging
+    \item Configure APNs notifications
+    \item Create notification preferences screen
+    \item Build AQI scheduler service
+    \item Implement Health Advisory Engine
+    \item Build alerts feed interface
+    \item Add notification deep-linking
+\end{enumerate}
+
+\subsection{New Dependencies}
+
+\begin{longtable}{|p{5cm}|p{3cm}|p{5cm}|}
+\hline
+\textbf{Library/Tool} & \textbf{Version} & \textbf{Purpose} \\
+\hline
+Expo Notifications & 0.27 & Push notifications \\
+\hline
+Firebase Admin SDK & 12.0 & Notification dispatching \\
+\hline
+node-cron & 3.0 & Scheduled jobs \\
+\hline
+Bull Queue & 4.12 & Notification queue system \\
+\hline
+Redis & 7.2 & Queue backend \\
+\hline
+Joi & 17.12 & API validation \\
+\hline
+\end{longtable}
+
+\subsection{TestRail \& Snapshot Objectives}
+TestRail Suite Added: Notifications \& Advisory Engine (Suite ID: S-103)
+\begin{itemize}
+    \item TC-301: Verify Firebase Cloud Messaging delivery
+    \item TC-302: Test AQI threshold logic and advisory generation
+    \item TC-303: Validate quiet hours notification suppression
+    \item TC-304: Verify advisory feed rendering and alert history display
+\end{itemize}
+
+\subsection {Updated Workflow}
+Sprint 5: Notification infrastructure + Sprint 6: Health Advisory Engine, alerts UI, QA
+Added Redis and Bull to docker-compose.yml for local dev environment
+
+\subsection{Documentation Updates}
+
+Updated documents include:
+
+\begin{itemize}
+    \item SDD notification architecture
+    \item SRS notification requirements
+    \item User manual alert configuration
+    \item Workflow diagrams
+\end{itemize}
+
+\subsection{Expected Deliverables}
+
+\begin{itemize}
+    \item Fully operational notification system
+    \item Health advisory recommendation engine
+    \item Alerts feed interface
+    \item Updated technical documentation
+\end{itemize}
+\newpage
+\section{Snapshot 4 - Final Reflection}
+
+AirWatch successfully delivered a cross-platform weather
+and air quality monitoring platform featuring:
+
+\begin{itemize}
+    \item Real-time AQI monitoring
+    \item Interactive heat-map visualization
+    \item Push notifications
+    \item Health advisory recommendations
+\end{itemize}
+
+\subsection{Final Development Goals}
+
+\begin{enumerate}
+    \item Optimize performance
+    \item Implement dark mode
+    \item Conduct accessibility audits
+    \item Finalize deployment pipelines
+    \item Complete regression testing
+    \item Prepare production release
+\end{enumerate}
+
+\subsection{New Dependencies}
+
+\begin{longtable}{|p{5cm}|p{3cm}|p{5cm}|}
+\hline
+\textbf{Tool} & \textbf{Version} & \textbf{Purpose} \\
+\hline
+react-native-dark-mode & 1.1 & Dark mode support \\
+\hline
+Lighthouse CI & 0.13 & Accessibility auditing \\
+\hline
+Fastlane & 2.219 & Deployment automation \\
+\hline
+Sentry & 7.99 & Crash monitoring \\
+\hline
+\end{longtable}
+
+\subsection{Future Work}
+
+Future planned enhancements include:
+
+\begin{itemize}
+    \item Wearable device integration
+    \item AI-powered AQI forecasting
+    \item Community pollution reporting
+    \item Offline mode support
+    \item Multi-language support
+    \item Home screen widgets
+\end{itemize}
+
+\subsection{TestRail Reflection}
+Total Test Cases Written: 92  |  Executed: 92  |  Passed: 86  |  Failed: 4  |  Blocked: 2
+
+\begin{itemize}
+    \item Most critical failures involved dark mode UI inconsistencies and AQI heat-map lag on older devices
+    \item Blocked issues included incomplete APNs production certificate validation during final iOS testing
+    \item Accessibility testing identified missing screen reader labels and insufficient contrast ratios
+    \item Overall pass rate: 93\% --- meeting the project release threshold
+\end{itemize}
+
+\subsection{Release Workflow}
+
+\begin{enumerate}
+    \item Final QA verification
+    \item Accessibility review
+    \item Production build generation
+    \item TestFlight and Play Store testing
+    \item Version tagging (v1.0.0)
+    \item Public release deployment
+\end{enumerate}
+
+\end{document}
