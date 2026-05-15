@@ -1,0 +1,268 @@
+
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{titlesec}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{booktabs}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue
+}
+
+\title{\noindent\rule{\textwidth}{0.5pt}
+\huge{AirWatch} \vspace{0.1cm}\\ \large{Weather \& Air Pollution Monitor\\}
+\noindent\rule{\textwidth}{0.5pt}
+\Large{User Manual \& Design Specification \\\small{End-User Guide \& UI/UX Design Reference\\}}
+\vspace{0.1cm}
+\small{ 
+Version: 1.3\\ 
+Date: May 2026\\
+Platform: Mobile (iOS/Android) \& Web\\
+CS3338 Group  5}
+}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+
+
+\section{User Manual}
+
+\subsection{Getting Started}
+
+\textbf{Mobile (Android)}
+\begin{enumerate}
+    \item Search ``AirWatch'' on the App Store
+    \item Tap \textbf{Get}
+    \item Authenticate
+    \item Open the app
+\end{enumerate}
+
+\textbf{Mobile (Android)}
+\begin{enumerate}
+    \item Search ``AirWatch'' on Google Play
+    \item Tap \textbf{Install}
+    \item Open the app
+\end{enumerate}
+
+\textbf{Web}
+\begin{enumerate}
+    \item Navigate to \url{https://app.airwatch.io}
+    \item Open in Chrome, Firefox, or Safari
+    \item Tap \textbf{Install} in the browser prompt for PWA experience
+\end{enumerate}
+
+\textbf{Creating an Account}
+
+\begin{enumerate}
+    \item Tap \textbf{Get Started} on the welcome screen
+    \item Enter your email address and choose a secure password (minimum 8 characters)
+    \item Tap \textbf{Create Account} and verify your email
+    \item Grant location permission when prompted
+\end{enumerate}
+
+\subsection{Home Screen}
+
+The Home Screen acts as the primary dashboard.
+
+\begin{itemize}
+    \item AQI Summary Card
+    \item Current Conditions
+    \item 7-Day Forecast Strip
+    \item Pollutant Breakdown
+\end{itemize}
+
+Data refreshes automatically every 10 minutes.
+
+\subsection{Map Screen}
+
+\textbf{Navigating the Map}
+
+\begin{enumerate}
+    \item Pinch to zoom and drag to pan
+    \item Tap colored zones to view AQI readings
+    \item AQI heat-map uses EPA color standards
+\end{enumerate}
+
+\textbf{Searching for a Location}
+
+\begin{enumerate}
+    \item Tap the search bar
+    \item Type a city name
+    \item Select a suggestion
+    \item Save the location using the bookmark icon
+\end{enumerate}
+
+\textbf{Saved Locations}
+
+\begin{itemize}
+    \item Displays AQI badges and weather summaries
+    \item Swipe left to delete
+    \item Tap and hold to reorder
+\end{itemize}
+
+\subsection{Alerts \& Notifications}
+
+\textbf{Enabling Notifications}
+
+\begin{enumerate}
+    \item Open Settings $\rightarrow$ Notifications
+    \item Toggle \textbf{Enable Alerts}
+    \item Grant notification permissions
+\end{enumerate}
+
+\textbf{Configuring Alert Thresholds}
+
+\begin{enumerate}
+    \item Open Settings $\rightarrow$ Notifications $\rightarrow$ Manage Locations
+    \item Adjust AQI threshold sliders
+    \item Receive push notifications when AQI exceeds threshold
+\end{enumerate}
+
+\textbf{Quiet Hours}
+
+\begin{enumerate}
+    \item Open Settings $\rightarrow$ Notifications $\rightarrow$ Quiet Hours
+    \item Enable Quiet Hours
+    \item Configure start and end times
+\end{enumerate}
+
+\subsection{Health Advisories}
+
+Each location detail screen includes:
+
+\begin{itemize}
+    \item Category labels and badges
+    \item Risk groups
+    \item Recommended actions
+    \item Outdoor activity guidance
+\end{itemize}
+
+\subsection{Settings}
+
+\begin{longtable}{|p{0.3\textwidth}|p{0.6\textwidth}|}
+\hline
+\textbf{Setting} & \textbf{Description} \\
+\hline
+Temperature Units & Toggle between Fahrenheit and Celsius \\
+\hline
+Wind Speed Units & Toggle between mph, km/h, and knots \\
+\hline
+Dark Mode & Auto, Light, or Dark mode \\
+\hline
+Notifications & Manage alerts, thresholds, and quiet hours \\
+\hline
+Account & Update email, password, or delete account \\
+\hline
+About & Version info, licenses, privacy policy, terms \\
+\hline
+\end{longtable}
+\newpage
+\section{Design Specification}
+
+\subsection{Design Principles}
+
+\begin{enumerate}
+    \item \textbf{Clarity First} -- pollution and health data must be instantly scannable
+    \item \textbf{Color as Communication} -- AQI colors follow EPA standards
+    \item \textbf{Accessibility by Default} -- minimum 4.5:1 contrast ratio
+    \item \textbf{Platform Consistency} -- follows iOS and Material Design conventions
+\end{enumerate}
+
+\subsection{Color Palette}
+
+\begin{longtable}{|p{0.25\textwidth}|p{0.2\textwidth}|p{0.3\textwidth}|}
+\hline
+\textbf{Name} & \textbf{Hex Code} & \textbf{Usage} \\
+\hline
+Primary Blue & \#1F4E79 & Headers and primary actions \\
+\hline
+Light Blue & \#2E75B6 & Secondary actions and links \\
+\hline
+AQI Good & \#00E400 & AQI 0--50 \\
+\hline
+AQI Moderate & \#FFFF00 & AQI 51--100 \\
+\hline
+AQI Unhealthy SG & \#FF7E00 & AQI 101--150 \\
+\hline
+AQI Unhealthy & \#FF0000 & AQI 151--200 \\
+\hline
+AQI Very Unhealthy & \#8F3F97 & AQI 201--300 \\
+\hline
+AQI Hazardous & \#7E0023 & AQI 301--500 \\
+\hline
+Background Light & \#F2F7FB & Light mode background \\
+\hline
+Background Dark & \#121820 & Dark mode background \\
+\hline
+\end{longtable}
+
+\subsection{Typography}
+
+\begin{longtable}{|p{0.2\textwidth}|p{0.25\textwidth}|p{0.2\textwidth}|p{0.25\textwidth}|}
+\hline
+\textbf{Element} & \textbf{Typeface} & \textbf{Size / Weight} & \textbf{Usage} \\
+\hline
+Display & SF Pro / Roboto & 34pt Bold & AQI number and temperature \\
+\hline
+Heading 1 & SF Pro / Roboto & 22pt Semibold & Screen titles \\
+\hline
+Heading 2 & SF Pro / Roboto & 17pt Semibold & Card headers \\
+\hline
+Body & SF Pro / Roboto & 15pt Regular & General content \\
+\hline
+Caption & SF Pro / Roboto & 12pt Regular & Labels and timestamps \\
+\hline
+\end{longtable}
+
+\subsection{Screen Inventory}
+
+\begin{longtable}{|p{0.25\textwidth}|p{0.2\textwidth}|p{0.45\textwidth}|}
+\hline
+\textbf{Screen} & \textbf{Introduced} & \textbf{Key Components} \\
+\hline
+Welcome / Onboarding & Snapshot 1 & Carousel slides and authentication CTAs \\
+\hline
+Home & Snapshot 1 & AQI card, forecast, pollutant chart \\
+\hline
+Location Detail & Snapshot 1 & AQI breakdown and health advisory \\
+\hline
+Map & Snapshot 2 & Heat-map overlay and search \\
+\hline
+Saved Locations & Snapshot 2 & AQI badges and drag-reorder \\
+\hline
+Alerts Feed & Snapshot 3 & Advisory list and dismiss actions \\
+\hline
+Notification Settings & Snapshot 3 & Threshold sliders and quiet hours \\
+\hline
+Settings & Snapshot 1+ & Units, dark mode, account management \\
+\hline
+\end{longtable}
+
+\subsection{Icon System}
+
+Icons are sourced from Expo Vector Icons (Ionicons set) on mobile and Heroicons on web. AQI category icons use custom SVG assets.
+
+\subsection{Motion \& Animation}
+
+\begin{itemize}
+    \item Map heat-map fade-in: 400ms ease-in
+    \item AQI card color interpolation: 300ms
+    \item Notification toast animation: 250ms spring
+    \item Reduce-motion accessibility preferences are respected
+\end{itemize}
+
+\end{document}
+
